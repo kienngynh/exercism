@@ -6,7 +6,28 @@ pub struct Player {
 
 impl Player {
     pub fn revive(&self) -> Option<Player> {
-        unimplemented!("Revive this player")
+        let mut a = self;
+        match self.health {
+            0 => {
+                if self.level < 10 {
+                    a {
+                        health: 100,
+                        mana: Some(0),
+                        level: &self.level,
+                    }
+                } else if self.level >= 10 {
+                    a {
+                        health: 100,
+                        mana: Some(100),
+                        level: &self.level,
+                    }
+                } else {
+                    a
+                }
+            }
+            _ => (),
+        }
+        Some(a)
     }
 
     pub fn cast_spell(&mut self, mana_cost: u32) -> u32 {
