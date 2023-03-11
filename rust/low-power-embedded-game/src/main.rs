@@ -16,7 +16,6 @@ impl Position {
 
 fn main() {
     let mut even_ints = evens(1..10);
-    assert_eq!(_v1_iter,(1..10));
     println!("{:?}", even_ints.next());
     println!("{:?}", even_ints.next());
     println!("{:?}", even_ints.next());
