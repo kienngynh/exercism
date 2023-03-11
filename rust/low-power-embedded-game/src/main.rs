@@ -15,8 +15,6 @@ impl Position {
 }
 
 fn main() {
-    let _v1 = vec![1,2,3,4,5,6,7,8,9,10];
-    let mut _v1_iter = _v1.iter();
     let mut even_ints = evens(1..10);
     assert_eq!(_v1_iter,(1..10));
     println!("{:?}", even_ints.next());
