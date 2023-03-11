@@ -1,6 +1,10 @@
 {
   "authors": [
+    "seanchen1991",
     "coriolinus"
+  ],
+  "contributors": [
+    "PaulT89"
   ],
   "files": {
     "solution": [
@@ -8,11 +12,11 @@
       "Cargo.toml"
     ],
     "test": [
-      "tests/low-power-embedded-game.rs"
+      "tests/role-playing-game.rs"
     ],
     "exemplar": [
       ".meta/exemplar.rs"
     ]
   },
-  "blurb": "Learn tuples while writing convenience functions for a low-power embedded game"
+  "blurb": "Learn about the `Option` enum by creating a minimal role-playing game"
 }
