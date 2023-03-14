@@ -6,31 +6,34 @@ pub struct Clock {
 
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
+        let new_hours = (hours + minutes / 60) % 24;
+        let new_minutes = minutes % 60;
+        let result_hours = match new_hours {
+            ..=-1 => 24 + new_hours,
+            _ => new_hours,
+        };
+
+        let result_minutes = match new_minutes {
+            ..=-1 => 60 + new_minutes,
+            _ => new_minutes,
+        };
         Clock {
-            hours: hours,
-            minutes: minutes,
+            hours: match result_hours {
+                _ => result_hours,
+            },
+            minutes: match result_minutes {
+                _ => result_minutes,
+            },
         }
     }
     pub fn to_string(&self) -> String {
-        let mut hours = self.hours + self.minutes / 60;
-        let mut minutes = self.minutes % 60;
-        hours = match self.hours {
-            24.. => hours % 24,
-            _ => hours,
+        let str_hours = match self.hours {
+            0..=9 => format!("0{}", self.hours),
+            _ => format!("{}", self.hours),
         };
-        minutes = match self.hours {
-            60.. => hours % 60,
-            _ => minutes,
-        };
-        let str_hours = match hours {
-            0..=9 => format!("0{}", hours),
-            24 => "00".to_owned(),
-            _ => format!("{}", hours),
-        };
-        let str_minutes = match minutes {
-            0..=9 => format!("0{}", minutes),
-            60 => "00".to_owned(),
-            _ => format!("{}", minutes),
+        let str_minutes = match self.minutes {
+            0..=9 => format!("0{}", self.minutes),
+            _ => format!("{}", self.minutes),
         };
         format!("{}:{}", str_hours, str_minutes)
     }
@@ -40,5 +43,5 @@ impl Clock {
 }
 
 fn main() {
-    print!("{}", Clock::new(10, 37).to_string())
+    print!("{}", Clock::new(-12, -268).to_string())
 }

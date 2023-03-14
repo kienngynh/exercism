@@ -3,26 +3,26 @@ pub struct Clock {
     hours: i32,
     minutes: i32,
 }
-
+pub fn convert_time(hours: i32, minutes: i32) -> (i32, i32) {
+    let new_hours = (hours + minutes.div_euclid(60)).rem_euclid(24);
+    let new_minutes = minutes.rem_euclid(60);
+    (
+        match new_hours {
+            ..=-1 => 24 + new_hours,
+            _ => new_hours,
+        },
+        match new_minutes {
+            ..=-1 => 60 + new_minutes,
+            _ => new_minutes,
+        },
+    )
+}
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
-        let positive_minutes = match minutes {
-            ..=-1 => 60 + minutes % 60,
-            _ => minutes,
-        };
-        let positive_hours = match hours {
-            ..=-1 => 24 + hours % 24,
-            _ => hours,
-        };
-        let result_hours = (positive_hours + positive_minutes / 60) % 24;
-        let result_minutes = positive_minutes % 60;
+        let new_time = convert_time(hours, minutes);
         Clock {
-            hours: match result_hours {
-                _ => result_hours,
-            },
-            minutes: match result_minutes {
-                _ => result_minutes,
-            },
+            hours: new_time.0,
+            minutes: new_time.1,
         }
     }
     pub fn to_string(&self) -> String {
@@ -37,6 +37,10 @@ impl Clock {
         format!("{}:{}", str_hours, str_minutes)
     }
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        unimplemented!("Add {minutes} minutes to existing Clock time");
+        let new_time = convert_time(self.hours, self.minutes + minutes);
+        Clock {
+            hours: new_time.0,
+            minutes: new_time.1,
+        }
     }
 }
