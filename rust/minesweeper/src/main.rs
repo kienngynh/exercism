@@ -11,9 +11,24 @@ fn remove_annotations_in_row(row: &str) -> String {
         .collect()
 }
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
-    let mi = minefield.iter().map(|&x| x.as_bytes()).collect::<Vec<_>>();
-    println!("{:?}",mi);
-    vec!["111".to_owned(), "222".to_owned()]
+    let mut result = Vec::new();
+    let (x, y) = (
+        minefield.len(),
+        minefield[0].chars().collect::<Vec<char>>().len(),
+    );
+    for i in 0..x {
+        let line = minefield[i].chars().collect::<Vec<char>>();
+        for j in 0..y {
+            match (i == 0 || i == x, j == 0 || j == y, line[j] != '*') {
+                (true, true, true) => (),
+                (true, false, true) => (),
+                (false, true, true) => (),
+                (false, false, true) => (),
+                _ => (),
+            }
+        }
+    }
+    result
 }
 fn main() {
     let test_case = ["1*22*1", "12*322", " 123*2", "112*4*", "1*22*2", "111111"];
