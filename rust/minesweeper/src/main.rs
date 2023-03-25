@@ -16,11 +16,15 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         .iter()
         .flat_map(|&s| s.chars())
         .enumerate()
+        .map(|v| match v {
+            (0, ' ') => (0, '0'),
+            (1, '*') => (1, '1'),
+            (i, c) => (i, c),
+        })
         .collect();
-    let (x, y) = (minefield.len(), vector_minefield.len());
     println!("{:?}", vector_minefield);
-    /*<_>
-    let (x, y) = (minefield.len(), v.len());
+    /*
+    let (x, y) = (minefield.len(), vector_minefield.len());
     for i in 0..y {
         match (i / x, i % (y / x + 1)) {
             (_, _) => todo!(),
