@@ -16,10 +16,17 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         .iter()
         .flat_map(|&s| s.chars())
         .enumerate()
-        .map(|v| match v {
-            (0, ' ') => (0, '0'),
-            (1, '*') => (1, '1'),
-            (i, c) => (i, c),
+        .map(|(k, v)| match (k, v) {
+            (k, ' ') => (
+                k,
+                match k {
+                    0 => '0',
+                    1 => '1',
+                    2 => '2',
+                    _ => ' ',
+                },
+            ),
+            (k, v) => (k, v),
         })
         .collect();
     println!("{:?}", vector_minefield);
