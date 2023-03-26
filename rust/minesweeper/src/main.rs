@@ -16,7 +16,7 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         .iter()
         .flat_map(|&s| s.chars())
         .collect::<Vec<char>>();
-    let (x, y) = (minefield.len(), vector_minefield.len());
+    let (x, y) = (minefield.len(), vector_minefield.len() / minefield.len());
     let mut s = String::new();
     for (k, v) in vector_minefield.iter().enumerate() {
         if k % x == 0 {
@@ -24,7 +24,22 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         }
         let value = match (k, v) {
             (_, '*') => '*',
-            (k, _) => '1',
+            (k, _) => {
+                println!(
+                    "{:?}",
+                    (
+                        Some(vector_minefield[k - y - 1]),
+                        Some(vector_minefield[k - y]),
+                        Some(vector_minefield[k - y + 1]),
+                        Some(vector_minefield[k - 1]),
+                        Some(vector_minefield[k + 1]),
+                        Some(vector_minefield[k + y - 1]),
+                        Some(vector_minefield[k + y]),
+                        Some(vector_minefield[k + y + 1]),
+                    )
+                );
+                '2'
+            }
         };
         s.push_str(&value.to_string());
         if k % x == x - 1 {
