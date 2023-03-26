@@ -12,21 +12,20 @@ fn remove_annotations_in_row(row: &str) -> String {
 }
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let mut result: Vec<String> = Vec::new();
+    let y = minefield[0].len();
+    let x = minefield.len();
     let vector_minefield: Vec<_> = minefield
         .iter()
         .flat_map(|&s| s.chars())
         .enumerate()
-        .map(|(k, v)| match (k, v) {
-            (k, ' ') => (
+        .map(|(k, v)| match (k, v, x, y) {
+            (k, ' ', x, y) => (
                 k,
-                match k {
-                    0 => '0',
-                    1 => '1',
-                    2 => '2',
-                    _ => ' ',
+                match (k / x, (k % x) % y) {
+                    (m, n) => 'o',
                 },
             ),
-            (k, v) => (k, v),
+            (k, v, _, _) => (k, v),
         })
         .collect();
     println!("{:?}", vector_minefield);
