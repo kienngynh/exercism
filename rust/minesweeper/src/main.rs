@@ -12,8 +12,7 @@ fn remove_annotations_in_row(row: &str) -> String {
 }
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
     let mut result: Vec<String> = Vec::new();
-    let y = minefield[0].len();
-    let x = minefield.len();
+    let (x, y) = (minefield.len(), minefield[0].len());
     let vector_minefield: Vec<_> = minefield
         .iter()
         .flat_map(|&s| s.chars())
