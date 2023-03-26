@@ -29,27 +29,39 @@ pub fn annotate(minefield: &[&str]) -> Vec<String> {
         if k % colume == 0 {
             s = String::new()
         }
-        let value = match (k, v) {
-            (_, '*') => '*',
+        let value:String = match (k, v) {
+            (_, '*') => '*'.to_string(),
             (k, _) => {
                 let (p_x, p_y) = (k / colume, k % colume);
-                println!(
-                    "{:?}",
-                    (
-                        get_index((p_x as i32 - 1, p_y as i32 - 1), colume as i32, row as i32),
-                        get_index((p_x as i32 - 1, p_y as i32), colume as i32, row as i32),
-                        get_index((p_x as i32 - 1, p_y as i32 + 1), colume as i32, row as i32),
-                        get_index((p_x as i32, p_y as i32 - 1), colume as i32, row as i32),
-                        get_index((p_x as i32, p_y as i32 + 1), colume as i32, row as i32),
-                        get_index((p_x as i32 + 1, p_y as i32 - 1), colume as i32, row as i32),
-                        get_index((p_x as i32 + 1, p_y as i32), colume as i32, row as i32),
-                        get_index((p_x as i32 + 1, p_y as i32 + 1), colume as i32, row as i32),
-                    )
-                );
-                ' '
+                let v = vec![
+                    get_index((p_x as i32 - 1, p_y as i32 - 1), colume as i32, row as i32),
+                    get_index((p_x as i32 - 1, p_y as i32), colume as i32, row as i32),
+                    get_index((p_x as i32 - 1, p_y as i32 + 1), colume as i32, row as i32),
+                    get_index((p_x as i32, p_y as i32 - 1), colume as i32, row as i32),
+                    get_index((p_x as i32, p_y as i32 + 1), colume as i32, row as i32),
+                    get_index((p_x as i32 + 1, p_y as i32 - 1), colume as i32, row as i32),
+                    get_index((p_x as i32 + 1, p_y as i32), colume as i32, row as i32),
+                    get_index((p_x as i32 + 1, p_y as i32 + 1), colume as i32, row as i32),
+                ];
+                let mut count: u32 = 0;
+                for i in v.iter() {
+                    match i {
+                        None => (),
+                        Some(k) => {
+                            if vector_minefield[*k] == '*' {
+                                count += 1
+                            }
+                        }
+                    }
+                }
+                match count {
+                    0 => ' '.to_string(),
+                    _ => format!("{}",count),
+                
+                }
             }
         };
-        s.push_str(&value.to_string());
+        s.push_str(&value);
         if k % colume == colume - 1 {
             result.push(s.clone())
         }
