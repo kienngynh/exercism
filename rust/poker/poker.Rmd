@@ -8,8 +8,7 @@ output: pdf_document
 # Instruction
 Pick the best hand(s) from a list of poker hands.
 
-See [wikipedia](https://en.wikipedia.org/wiki/List_of_poker_hands) for an
-overview of poker hands.
+See [wikipedia](https://en.wikipedia.org/wiki/List_of_poker_hands) for an overview of poker hands.
 
 + Ranking a list of poker hands can be considered a sorting problem.
 + Rust provides the [sort](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.sort) method for `Vec<T> where T: Ord`.
@@ -18,3 +17,9 @@ overview of poker hands.
 + Rust provides the [`PartialOrd` trait](https://doc.rust-lang.org/std/cmp/trait.PartialOrd.html) to handle the case of sortable things which do not have a total order. However, it doesn't provide a standard `sort` method for `Vec<T> where T: PartialOrd`. The standard idiom to sort a vector in this case; is `your_vec.sort_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::{Less|Equal|Greater}));`, depending on your needs.
 + You might consider implementing a type representing a poker hand that implements `PartialOrd`.
 
+# Let's solve it
+## List of poker hand
+|Index|Name          |Example         |
+|---|---|---|
+|1|Four of a kind|"AS AH AD AC KS"|
+|2|Straight flush|"JS 10S 9S 8S 7S"|
