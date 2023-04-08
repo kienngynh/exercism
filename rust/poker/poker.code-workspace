@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"grammarly.selectors": [
+			{
+				"language": "Rmd",
+				"scheme": "file"
+			},
+			{
+				"language": "plaintext",
+				"scheme": "file"
+			},
+			{
+				"language": "rmd",
+				"scheme": "file"
+			}
+		]
+	}
+}
