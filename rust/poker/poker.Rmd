@@ -2,11 +2,11 @@
 knit: (
   function(inputFile, encoding) { 
 
-    type_note <- "quick"
+    type_note <- "document"
 
-    file_name <- format(paste(type_note,format(Sys.time(),"%Y%m%d%H%M%S"),sep=""))
+    file_name <- "poker"
 
-    title <- "Title"
+    title <- "Poker Instruction"
 
     sub_title <- "Subtitle"
 
@@ -16,7 +16,7 @@ knit: (
       params =  list(title = title, sub_title = sub_title),    
       output_file = file_name)
 
-    file.copy(inputFile, file.path(format(paste("/home/tulipbk/github/kienngynh/notebooks/",type_note,sep="")), basename(format(paste(file_name,".Rmd",sep="")))))})
+    file.copy(inputFile, file.path(format(paste("/home/tulipbk/github/kienngynh/notebooks/",type_note,sep="")), basename(format(paste(file_name,".Rmd",sep="")))),overwrite = TRUE)})
 
 params: 
   title:
