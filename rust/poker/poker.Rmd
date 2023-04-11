@@ -1,9 +1,42 @@
 ---
-title: "Note of Poker Instruction"
-author: "Kien Nguyen Huu"
-date: "Last compiled on `r format(Sys.time(),'%B %d, %Y')`"
-output: pdf_document
+knit: (
+  function(inputFile, encoding) { 
+
+    type_note <- "quick"
+
+    file_name <- format(paste(type_note,format(Sys.time(),"%Y%m%d%H%M%S"),sep=""))
+
+    title <- "Title"
+
+    sub_title <- "Subtitle"
+
+    rmarkdown::render( 
+      input       = inputFile, 
+      encoding    = encoding, 
+      params =  list(title = title, sub_title = sub_title),    
+      output_file = file_name)
+
+    file.copy(inputFile, file.path(format(paste("/home/tulipbk/github/kienngynh/notebooks/",type_note,sep="")), basename(format(paste(file_name,".Rmd",sep="")))))})
+
+params: 
+  title:
+    input: text
+    label: title
+    value: "Title"
+  sub_title:
+    input: text
+    label: sub_title
+    value: "Subtitle"
+title: "`r params$title`"
+subtitle: "`r params$sub_title`"
+date: "`r format(Sys.time(),'Last complied: %B %d, %Y')`"
+author: "Nguyen Huu Kien"
+output: md_document
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 # Instruction
 Pick the best hand(s) from a list of poker hands.
@@ -35,7 +68,7 @@ First, let's research the poker games, I didn't play them before. According to W
 |11|High card|KS QH 7D 4C 3H|Nothing|
 
 * Todo-list
-  + Determind detail card on hand
+  + Determinder detail card on hand
     - Rank of card
     - Suite of card
   + Sort categoria
