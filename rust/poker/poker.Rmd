@@ -72,6 +72,6 @@ First, let's research the poker games, I didn't play them before. According to W
     - Rank of card
     - Suite of card
   + Sort categoria
-    - Because the result is the best hand, not a list sorted. So, I want to use HashSet
-    - Overview, HashSet will contain {Categoria:["hand1","hand2"]}
-    - Pick the best category then pick the best hand in there, we have the result.
+    - Run a loop input, every hand I will get 1 tuple 2 HashSet contain ({rank},{suite})
+    - Convert the tuple to point, the hand(s) have highest point is result
+    - So, I need a table containing values for every case.
