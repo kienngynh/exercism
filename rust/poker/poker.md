@@ -1,11 +1,9 @@
-`{r setup, include=FALSE} knitr::opts_chunk$set(echo = TRUE)`
-
 Instruction
 ===========
 
 Pick the best hand(s) from a list of poker hands.
 
-See [wikipedia](https://en.wikipedia.org/wiki/List_of_poker_hands) for
+See [Wikipedia](https://en.wikipedia.org/wiki/List_of_poker_hands) for
 an overview of poker hands.
 
 -   Ranking a list of poker hands can be considered a sorting problem.
@@ -49,7 +47,7 @@ According to Wikipedia, I see a table of hand-ranking categories.
                                                         sequential rank
                                                         and same suite
 
-  3                 Four of a kind    5C 5D 5H 5S 2D    Hand contain five
+  3                 Four-of-a-kind    5C 5D 5H 5S 2D    Hand contain five
                                                         cards in one rank
                                                         and a card in
                                                         another rank
@@ -89,7 +87,7 @@ According to Wikipedia, I see a table of hand-ranking categories.
   -----------------------------------------------------------------------
 
 -   Todo-list
-    -   Determinder detail card on hand
+    -   Determiner detail card on hand
         -   Rank of card
         -   Suite of card
     -   Sort categoria

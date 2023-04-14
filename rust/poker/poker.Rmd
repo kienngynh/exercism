@@ -16,7 +16,7 @@ knit: (
       params =  list(title = title, sub_title = sub_title),    
       output_file = file_name)
 
-    file.copy(inputFile, file.path(format(paste("/home/tulipbk/github/kienngynh/notebooks/",type_note,sep="")), basename(format(paste(file_name,".Rmd",sep="")))),overwrite = TRUE)})
+    #file.copy(inputFile, file.path(format(paste("/home/tulipbk/github/kienngynh/notebooks/",type_note,sep="")), basename(format(paste(file_name,".Rmd",sep="")))),overwrite = TRUE)})
 
 params: 
   title:
@@ -34,14 +34,10 @@ author: "Nguyen Huu Kien"
 output: md_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Instruction
 Pick the best hand(s) from a list of poker hands.
 
-See [wikipedia](https://en.wikipedia.org/wiki/List_of_poker_hands) for an overview of poker hands.
+See [Wikipedia](https://en.wikipedia.org/wiki/List_of_poker_hands) for an overview of poker hands.
 
 + Ranking a list of poker hands can be considered a sorting problem.
 + Rust provides the [sort](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.sort) method for `Vec<T> where T: Ord`.
@@ -58,7 +54,7 @@ First, let's research the poker games, I didn't play them before. According to W
 |---|---|---|---|
 |1|Royal flush|10S JS QS KS AS|I think this is the best hand|
 |2|Straight flush|JS 10S 9S 8S 7S|Hand contain five cards of sequential rank and same suite|
-|3|Four of a kind|5C 5D 5H 5S 2D|Hand contain five cards in one rank and a card in another rank|
+|3|Four-of-a-kind|5C 5D 5H 5S 2D|Hand contain five cards in one rank and a card in another rank|
 |5|Full house|6S 6H 6D KC KH|Hand contains three cards in one rank and two cards in another rank|
 |6|Flush|JD 9D 8D 4D 3D|Hand contains five cards same suite, not all of the sequential rank|
 |7|Straight|10D 9S 8H 7D 6C|Hand contains five cards of sequential rank and not all of the same suite|
@@ -68,7 +64,7 @@ First, let's research the poker games, I didn't play them before. According to W
 |11|High card|KS QH 7D 4C 3H|Nothing|
 
 * Todo-list
-  + Determinder detail card on hand
+  + Determiner detail card on hand
     - Rank of card
     - Suite of card
   + Sort categoria
