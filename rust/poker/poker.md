@@ -1,3 +1,5 @@
+`{r setup, include=FALSE} knitr::opts_chunk$set(echo = TRUE)`
+
 Instruction
 ===========
 
@@ -19,7 +21,7 @@ an overview of poker hands.
 -   Rust provides the [`PartialOrd`
     trait](https://doc.rust-lang.org/std/cmp/trait.PartialOrd.html) to
     handle the case of sortable things which do not have a total order.
-    However, it doesn’t provide a standard `sort` method for
+    However, it doesn't provide a standard `sort` method for
     `Vec<T> where T: PartialOrd`. The standard idiom to sort a vector in
     this case; is
     `your_vec.sort_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::{Less|Equal|Greater}));`,
@@ -27,103 +29,72 @@ an overview of poker hands.
 -   You might consider implementing a type representing a poker hand
     that implements `PartialOrd`.
 
-Let’s solve it
+Let's solve it
 ==============
 
 List of poker hand
 ------------------
 
-First, let’s research the poker games, I didn’t play them before.
+First, let's research the poker games, I didn't play them before.
 According to Wikipedia, I see a table of hand-ranking categories.
 
-<table>
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Index</th>
-<th>Name</th>
-<th>Example</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Royal flush</td>
-<td>10S JS QS KS AS</td>
-<td>I think this is the best hand</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Straight flush</td>
-<td>JS 10S 9S 8S 7S</td>
-<td>Hand contain five cards of sequential rank and same suite</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Four of a kind</td>
-<td>5C 5D 5H 5S 2D</td>
-<td>Hand contain five cards in one rank and a card in another rank</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>Full house</td>
-<td>6S 6H 6D KC KH</td>
-<td>Hand contains three cards in one rank and two cards in another rank</td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>Flush</td>
-<td>JD 9D 8D 4D 3D</td>
-<td>Hand contains five cards same suite, not all of the sequential rank</td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>Straight</td>
-<td>10D 9S 8H 7D 6C</td>
-<td>Hand contains five cards of sequential rank and not all of the same suite</td>
-</tr>
-<tr class="odd">
-<td>8</td>
-<td>Three of a kind</td>
-<td>QC QS QH 9H 2S</td>
-<td>Hand contain one of three cards in the same rank</td>
-</tr>
-<tr class="even">
-<td>9</td>
-<td>Two pair</td>
-<td>JS JH 3D 3C 2H</td>
-<td>Hand contain two of the double card in two other the same rank</td>
-</tr>
-<tr class="odd">
-<td>10</td>
-<td>One pair</td>
-<td>10S 10H 8D 7C KH</td>
-<td>Hand contain two cards in same rank</td>
-</tr>
-<tr class="even">
-<td>11</td>
-<td>High card</td>
-<td>KS QH 7D 4C 3H</td>
-<td>Nothing</td>
-</tr>
-</tbody>
-</table>
+  -----------------------------------------------------------------------
+  Index             Name              Example           Description
+  ----------------- ----------------- ----------------- -----------------
+  1                 Royal flush       10S JS QS KS AS   I think this is
+                                                        the best hand
+
+  2                 Straight flush    JS 10S 9S 8S 7S   Hand contain five
+                                                        cards of
+                                                        sequential rank
+                                                        and same suite
+
+  3                 Four of a kind    5C 5D 5H 5S 2D    Hand contain five
+                                                        cards in one rank
+                                                        and a card in
+                                                        another rank
+
+  5                 Full house        6S 6H 6D KC KH    Hand contains
+                                                        three cards in
+                                                        one rank and two
+                                                        cards in another
+                                                        rank
+
+  6                 Flush             JD 9D 8D 4D 3D    Hand contains
+                                                        five cards same
+                                                        suite, not all of
+                                                        the sequential
+                                                        rank
+
+  7                 Straight          10D 9S 8H 7D 6C   Hand contains
+                                                        five cards of
+                                                        sequential rank
+                                                        and not all of
+                                                        the same suite
+
+  8                 Three of a kind   QC QS QH 9H 2S    Hand contain one
+                                                        of three cards in
+                                                        the same rank
+
+  9                 Two pair          JS JH 3D 3C 2H    Hand contain two
+                                                        of the double
+                                                        card in two other
+                                                        the same rank
+
+  10                One pair          10S 10H 8D 7C KH  Hand contain two
+                                                        cards in same
+                                                        rank
+
+  11                High card         KS QH 7D 4C 3H    Nothing
+  -----------------------------------------------------------------------
 
 -   Todo-list
     -   Determinder detail card on hand
         -   Rank of card
         -   Suite of card
     -   Sort categoria
-        -   Because the result is the best hand, not a list sorted. So,
-            I want to use HashSet
-        -   Overview, HashSet will contain
-            {Categoria:\[“hand1”,“hand2”\]}
-        -   Pick the best category then pick the best hand in there, we
-            have the result.
-        -   Test
+        -   Run a loop input, every hand I will get 1 tuple 2 HashSet
+            contain ({rank},{suite})
+        -   Convert the tuple to point, the hand(s) have highest point
+            is result
+        -   So, I need a table containing values for every case.
