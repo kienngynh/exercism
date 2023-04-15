@@ -11,7 +11,7 @@ an overview of poker hands.
     [sort](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.sort)
     method for `Vec<T> where T: Ord`.
 -   [`Ord` types](https://doc.rust-lang.org/std/cmp/trait.Ord.html) form
-    a [total order](https://en.wikipedia.org/wiki/Total_order): exactly
+    a [total order](https://en.wikipedia.org/wiki/Total_order) exactly
     one of `a < b`, `a == b`, or `a > b` must be true.
 -   Poker hands do not conform to a total order: it is possible for two
     hands to be non-equal but has equal sort order. Example:
@@ -45,7 +45,8 @@ According to Wikipedia, I see a table of hand-ranking categories.
   2                 Straight flush    JS 10S 9S 8S 7S   Hand contain five
                                                         cards of
                                                         sequential rank
-                                                        and same suite
+                                                        and the same
+                                                        suite
 
   3                 Four-of-a-kind    5C 5D 5H 5S 2D    Hand contain five
                                                         cards in one rank
@@ -70,7 +71,7 @@ According to Wikipedia, I see a table of hand-ranking categories.
                                                         and not all of
                                                         the same suite
 
-  8                 Three of a kind   QC QS QH 9H 2S    Hand contain one
+  8                 Three-of-a-kind   QC QS QH 9H 2S    Hand contain one
                                                         of three cards in
                                                         the same rank
 
@@ -79,8 +80,8 @@ According to Wikipedia, I see a table of hand-ranking categories.
                                                         card in two other
                                                         the same rank
 
-  10                One pair          10S 10H 8D 7C KH  Hand contain two
-                                                        cards in same
+  10                One pair          10S 10H 8D 7C KH  Hand contains two
+                                                        cards in the same
                                                         rank
 
   11                High card         KS QH 7D 4C 3H    Nothing
@@ -89,10 +90,31 @@ According to Wikipedia, I see a table of hand-ranking categories.
 -   Todo-list
     -   Determiner detail card on hand
         -   Rank of card
-        -   Suite of card
-    -   Sort categoria
-        -   Run a loop input, every hand I will get 1 tuple 2 HashSet
-            contain ({rank},{suite})
-        -   Convert the tuple to point, the hand(s) have highest point
-            is result
-        -   So, I need a table containing values for every case.
+            -   Two
+            -   Three
+            -   Four
+            -   Five
+            -   Six
+            -   Seven
+            -   Eight
+            -   Nine
+            -   Ten
+            -   Jack
+            -   Queen
+            -   King
+            -   Ace
+        -   Suit of card
+            -   Spades
+            -   Club
+            -   Diamonds
+            -   Hearts
+    -   Determiner categories of hand
+        -   High card
+        -   One pair
+        -   Two pair
+        -   Three of a kind
+        -   Straight
+        -   Flush
+        -   Full house
+        -   Four of a kind
+        -   Straight flush
