@@ -85,6 +85,8 @@ According to Wikipedia, I see a table of hand-ranking categories.
                                                         rank
 
   11                High card         KS QH 7D 4C 3H    Nothing
+
+  \-                \-                \-                \-
   -----------------------------------------------------------------------
 
 -   Todo-list
