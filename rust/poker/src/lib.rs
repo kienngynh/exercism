@@ -42,6 +42,7 @@ enum Categories {
     FourOfAKind,
     StraightFlush,
 }
+#[derive(Debug, PartialEq, Eq)]
 struct Hand<'a> {
     source: &'a str,
     cards: [Card; 5],
