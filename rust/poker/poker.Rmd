@@ -62,7 +62,7 @@ First, let's research the poker games, I didn't play them before. According to W
 |9|Two pair|JS JH 3D 3C 2H|Hand contain two of the double card in two other the same rank|
 |10|One pair|10S 10H 8D 7C KH|Hand contains two cards in the same rank|
 |11|High card|KS QH 7D 4C 3H|Nothing|
-|-|-|-|-|
+||
 
 * Todo-list
   + Determiner detail card on hand
