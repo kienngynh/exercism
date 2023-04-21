@@ -46,7 +46,7 @@ First, let's research the poker games, I didn't play them before. According to W
             + Ace
         - Suit of card
             + Spades
-            + Club
+            + Clubs
             + Diamonds
             + Hearts
     + Determiner categories of hand    

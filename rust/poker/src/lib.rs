@@ -21,7 +21,7 @@ enum Rank {
 #[derive(Debug, PartialEq, Eq, PartialOrd, Clone, Copy, Hash)]
 enum Suit {
     Spades,
-    Club,
+    Clubs,
     Diamonds,
     Hearts,
 }
