@@ -28,33 +28,35 @@ First, let's research the poker games, I didn't play them before. According to W
 |11|High card|KS QH 7D 4C 3H|Nothing|
 
 * Todo-list
-  + Determiner detail card on hand
-    - Rank of card
-      + Two
-      + Three
-      + Four
-      + Five
-      + Six
-      + Seven
-      + Eight
-      + Nine
-      + Ten
-      + Jack
-      + Queen
-      + King
-      + Ace
-    - Suit of card
-      + Spades
-      + Club
-      + Diamonds
-      + Hearts
-  + Determiner categories of hand    
-    - High card
-    - One pair
-    - Two pair
-    - Three of a kind
-    - Straight
-    - Flush
-    - Full house
-    - Four of a kind
-    - Straight flush
+    + Get source input
+    + Determiner detail card on hand
+        - Rank of card
+            + Two
+            + Three
+            + Four
+            + Five
+            + Six
+            + Seven
+            + Eight
+            + Nine
+            + Ten
+            + Jack
+            + Queen
+            + King
+            + Ace
+        - Suit of card
+            + Spades
+            + Club
+            + Diamonds
+            + Hearts
+    + Determiner categories of hand    
+        - High card
+        - One pair
+        - Two pair
+        - Three of a kind
+        - Straight
+        - Flush
+        - Full house
+        - Four of a kind
+        - Straight flush
+
