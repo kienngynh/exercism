@@ -47,6 +47,7 @@ According to Wikipedia, I see a table of hand-ranking categories.
 | 11    | High card       | KS QH 7D 4C 3H   | Nothing                                                                   |
 
   - Struct of instruction
+    
       - Get source input
       - Determiner detail card on hand
           - Rank of card
@@ -78,18 +79,18 @@ According to Wikipedia, I see a table of hand-ranking categories.
           - Full house
           - Four of a kind
           - Straight flush
-  - Todo list
 
-    [ ] Struct  
-      [ ] Hand 
-        [ ] Convert from source -> [Card;5]
-        [ ] Compare with other hand
-        [ ] Import to trait sort()
-    [ ] Enum
-      [ ] Card
-        [ ] Convert form source -> [Rank,Suit]
-      [ ] Rank
-        [ ] Convert from source -> [Rank::?]
-      [ ] Suit      
-        [ ] Convert from source -> [Suit::?]
-     
+  - Todo list
+    
+    \[ \] Struct  
+    \[ \] Hand  
+    \[ \] Convert from source -\> \[Card;5\]  
+    \[ \] Compare with other hand  
+    \[ \] Import to trait sort()  
+    \[ \] Enum  
+    \[ \] Card  
+    \[ \] Convert form source -\> \[Rank,Suit\]  
+    \[ \] Rank  
+    \[ \] Convert from source -\> \[Rank::?\]  
+    \[ \] Suit  
+    \[ \] Convert from source -\> \[Suit::?\]
