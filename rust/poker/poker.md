@@ -79,16 +79,15 @@ According to Wikipedia, I see a table of hand-ranking categories.
           - Four of a kind
           - Straight flush
   - Todo list
-    [x] Struct  
-      [ ] Hand   
-        [ ] Convert from source -> [Card;5]  
-        [ ] Compare with other hand  
-        [ ] Import to trait sort()  
-    [ ] Enum  
-      [ ] Card  
-        [ ] Convert form source -> [Rank,Suit]  
-      [ ] Rank  
-        [ ] Convert from source -> [Rank::?]  
-      [ ] Suit  
-        [ ] Convert from source -> [Suit::?]  
-     
+      - [x] Struct
+          - [ ] Hand
+              - [ ] Convert from source -\> \[Card;5\]  
+              - [ ] Compare with other hand  
+              - [ ] Import to trait sort()  
+      - [ ] Enum
+          - [ ] Card
+              - [ ] Convert form source -\> \[Rank,Suit\]  
+          - [ ] Rank
+              - [ ] Convert from source -\> \[Rank::?\]  
+          - [ ] Suit
+              - [ ] Convert from source -\> \[Suit::?\]
