@@ -80,7 +80,7 @@ According to Wikipedia, I see a table of hand-ranking categories.
           - Straight flush
   - Todo list
 
-    [ ] Struct
+    [ ] Struct  
       [ ] Hand 
         [ ] Convert from source -> [Card;5]
         [ ] Compare with other hand
