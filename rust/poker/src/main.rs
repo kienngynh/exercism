@@ -1,5 +1,4 @@
 use poker::winning_hands;
-use std::collections::{HashMap, HashSet};
 
 fn main() {
     let input = &[
