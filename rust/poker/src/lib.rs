@@ -2,6 +2,7 @@ use std::{cmp::Ordering, convert::TryFrom};
 /// Given a list of poker hands, return a list of those hands which win.
 ///
 /// Note the type signature: this function should return _the same_ reference to the winning hand(s) as were passed in, not reconstructed strings which happen to be equal.
+#[derive(Debug,Clone, Copy)]
 enum Rank {
     Two,
     Three,
@@ -17,12 +18,14 @@ enum Rank {
     King,
     Ace,
 }
+#[derive(Debug,Clone, Copy)]
 enum Suit {
     Spades,
     Clubs,
     Heart,
     Diamonds,
 }
+#[derive(Debug,Clone, Copy)]
 struct Card {
     rank: Rank,
     suit: Suit,
@@ -47,11 +50,21 @@ impl<'a> TryFrom<&'a str> for Hand<'a> {
     type Error = &'static str;
 
     fn try_from(hand: &'a str) -> Result<Self, Self::Error> {
-        let mut cards: Vec<_> = hand
+        let cards = hand
             .split_whitespace()
-            .map(|card| Card::try_from(card))
-            .collect();
-        todo!();
+            .map(Card::try_from)
+            .collect::<Result<Vec<_>,_>>()?;
+        println!("{:?}",cards);
+        if cards.len() == 5 {
+            Ok(Hand {
+                hand: hand,
+                cards: [cards[0],cards[1],cards[2],cards[3],cards[4]],
+                categories: Categories::HighCard
+            })
+        }
+        else {
+            Err("Invalid hands")
+        }
     }
 }
 impl<'a> TryFrom<&'a str> for Card {
