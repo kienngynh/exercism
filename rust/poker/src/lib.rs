@@ -169,9 +169,9 @@ impl Categories {
                     four_of_a_kind = Some(rank);
                 }
             }
-            if let Some(rank) = four_of_a_kind {
+            if let Some(_rank) = four_of_a_kind {
                 Ok(Categories::FourOfAKind)
-            } else if let Some(rank) = three_of_a_kind {
+            } else if let Some(_rank) = three_of_a_kind {
                 if !pairs.is_empty() {
                     Ok(Categories::FullHouse)
                 } else {
