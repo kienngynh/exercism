@@ -1,4 +1,5 @@
 use std::{ cmp::Ordering, convert::TryFrom };
+use std::collections::HashMap;
 /// Given a list of poker hands, return a list of those hands which win.
 ///
 /// Note the type signature: this function should return _the same_ reference to the winning hand(s) as were passed in, not reconstructed strings which happen to be equal.
@@ -8,17 +9,12 @@ struct Hand<'a> {
     cards: [Card; 5],
     categories: Categories,
 }
-impl<'a> Hand<'a> {
-    fn check_categories(&self) -> Categories {
-        todo!()
-    }
-}
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 struct Card {
     rank: Rank,
     suit: Suit,
 }
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum Rank {
     Two,
     Three,
@@ -34,8 +30,26 @@ enum Rank {
     King,
     Ace,
 }
-
-#[derive(Debug, Clone, Copy)]
+impl Rank {
+    fn get_value(&self) -> u8 {
+        match self {
+            Rank::Two => 2,
+            Rank::Three => 3,
+            Rank::Four => 4,
+            Rank::Five => 5,
+            Rank::Six => 6,
+            Rank::Seven => 7,
+            Rank::Eight => 8,
+            Rank::Nine => 9,
+            Rank::Ten => 10,
+            Rank::Jack => 11,
+            Rank::Queen => 12,
+            Rank::King => 13,
+            Rank::Ace => 14,
+        }
+    }
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 enum Suit {
     Spades,
     Clubs,
@@ -43,11 +57,11 @@ enum Suit {
     Diamonds,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum Categories {
     HighCard,
     OnePair,
-    TwoPair,
+    TwoPairs,
     ThreeOfAKind,
     Straight,
     Flush,
@@ -66,7 +80,7 @@ impl<'a> TryFrom<&'a str> for Hand<'a> {
             Ok(Hand {
                 hand: value,
                 cards: [cards[0], cards[1], cards[2], cards[3], cards[4]],
-                categories: Categories::HighCard,
+                categories: Categories::check_categories(cards)?,
             })
         } else {
             Err("Invalid hands")
@@ -118,11 +132,69 @@ impl<'a> TryFrom<&'a str> for Suit {
         }
     }
 }
+impl Categories {
+    fn check_categories(cards: Vec<Card>) -> Result<Self, &'static str> {
+        if cards.len() != 5 {
+            return Err("Invalid number of cards");
+        }
+        let mut sorted_cards = cards.clone();
+        sorted_cards.sort();
+        sorted_cards.reverse();
+        let is_flush = sorted_cards.iter().all(|&card| card.suit == sorted_cards[0].suit);
+        let is_straight =
+            sorted_cards[0].rank.get_value() - sorted_cards[4].rank.get_value() == 4 ||
+            (sorted_cards[0].rank.get_value() == 14 &&
+                sorted_cards[1].rank.get_value() == 5 &&
+                sorted_cards[1].rank.get_value() - sorted_cards[4].rank.get_value() == 3);
+        if is_flush && is_straight {
+            return Ok(Categories::StraightFlush);
+        } else if is_flush {
+            return Ok(Categories::Flush);
+        } else if is_straight {
+            return Ok(Categories::Straight);
+        } else {
+            let mut rank_counts: HashMap<Rank, u8> = HashMap::new();
+            for card in cards {
+                *rank_counts.entry(card.rank).or_insert(0) += 1;
+            }
+            let mut pairs: Vec<Rank> = vec![];
+            let mut three_of_a_kind: Option<Rank> = None;
+            let mut four_of_a_kind: Option<Rank> = None;
+            for (rank, count) in rank_counts {
+                if count == 2 {
+                    pairs.push(rank);
+                } else if count == 3 {
+                    three_of_a_kind = Some(rank);
+                } else if count == 4 {
+                    four_of_a_kind = Some(rank);
+                }
+            }
+            if let Some(rank) = four_of_a_kind {
+                Ok(Categories::FourOfAKind)
+            } else if let Some(rank) = three_of_a_kind {
+                if !pairs.is_empty() {
+                    Ok(Categories::FullHouse)
+                } else {
+                    Ok(Categories::ThreeOfAKind)
+                }
+            } else if pairs.len() == 2 {
+                Ok(Categories::TwoPairs)
+            } else if pairs.len() == 1 {
+                Ok(Categories::OnePair)
+            } else {
+                Ok(Categories::HighCard)
+            }
+        }
+    }
+}
 pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
-    let hand: Vec<_> = hands
+    let hand = hands
         .iter()
         .map(|hand| Hand::try_from(*hand))
-        .collect();
-    println!("{:?}", hand);
+        .collect::<Result<Vec<Hand>, &'static str>>();
+    match hand {
+        Ok(h) => println!("{:?}", h),
+        Err(e) => println!("{}", e),
+    }
     vec!["4D 3D 2H 2S AC"]
 }
