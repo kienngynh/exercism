@@ -3,7 +3,7 @@ use std::collections::HashMap;
 /// Given a list of poker hands, return a list of those hands which win.
 ///
 /// Note the type signature: this function should return _the same_ reference to the winning hand(s) as were passed in, not reconstructed strings which happen to be equal.
-#[derive(Debug)]
+#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 struct Hand<'a> {
     hand: &'a str,
     cards: [Card; 5],
@@ -188,13 +188,21 @@ impl Categories {
     }
 }
 pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
-    let hand = hands
-        .iter()
-        .map(|hand| Hand::try_from(*hand))
-        .collect::<Result<Vec<Hand>, &'static str>>();
-    match hand {
-        Ok(h) => println!("{:?}", h),
-        Err(e) => println!("{}", e),
+    let mut hands = match
+        hands
+            .iter()
+            .map(|hand| Hand::try_from(*hand))
+            .collect::<Result<Vec<Hand>, &'static str>>()
+    {
+        Ok(hands) => hands,
+        Err(err) => {
+            return vec![err];
+        }
+    };
+    hands.sort();
+    for h in hands {
+        println!("{:?}",h)
     }
-    vec!["4D 3D 2H 2S AC"]
+    let x = vec!["4D 3D 2H 2S AC"];
+    x
 }
