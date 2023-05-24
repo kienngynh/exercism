@@ -1,9 +1,11 @@
 use std::{ cmp::Ordering, convert::TryFrom };
 use std::collections::HashMap;
+
+use counter::Counter;
 /// Given a list of poker hands, return a list of those hands which win.
 ///
 /// Note the type signature: this function should return _the same_ reference to the winning hand(s) as were passed in, not reconstructed strings which happen to be equal.
-#[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
+#[derive(Debug, Eq, Ord, PartialEq)]
 struct Hand<'a> {
     hand: &'a str,
     cards: [Card; 5],
@@ -72,10 +74,11 @@ enum Categories {
 impl<'a> TryFrom<&'a str> for Hand<'a> {
     type Error = &'static str;
     fn try_from(value: &'a str) -> Result<Self, Self::Error> {
-        let cards = value
+        let mut cards = value
             .split_whitespace()
             .map(|card| Card::try_from(card))
             .collect::<Result<Vec<Card>, &'static str>>()?;
+        cards.sort_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Less));
         if cards.len() == 5 {
             Ok(Hand {
                 hand: value,
@@ -85,6 +88,78 @@ impl<'a> TryFrom<&'a str> for Hand<'a> {
         } else {
             Err("Invalid hands")
         }
+    }
+}
+impl<'a> PartialOrd for Hand<'a> {
+    fn partial_cmp(&self, other: &Hand) -> Option<Ordering> {
+        Some(
+            self.categories.cmp(&other.categories).then_with(|| {
+                use crate::Categories::*;
+                match &self.categories {
+                    HighCard => self.cmp_high_card(other, 4),
+                    OnePair => self.cmp_cascade_by_freq(other),
+                    TwoPairs => self.cmp_cascade_by_freq(other),
+                    ThreeOfAKind => self.cmp_cascade_by_freq(other),
+                    Straight => self.cmp_straight(other),
+                    Flush => self.cmp_high_card(other, 4),
+                    FullHouse => self.cmp_cascade_by_freq(other),
+                    FourOfAKind => self.cmp_cascade_by_freq(other),
+                    StraightFlush => self.cmp_straight(other),
+                }
+            })
+        )
+    }
+}
+impl<'a> Hand<'a> {
+    fn cmp_high_card(&self, other: &Hand, card: usize) -> Ordering {
+        let mut ordering = self.cards[card].rank
+            .get_value()
+            .cmp(&other.cards[card].rank.get_value());
+        if card != 0 {
+            ordering = ordering.then_with(|| self.cmp_high_card(other, card - 1));
+        }
+        ordering
+    }
+
+    fn value_by_frequency(&self) -> (Option<Rank>, Option<Rank>, Option<Rank>) {
+        let rank_counter = self.cards
+            .iter()
+            .map(|c| c.rank)
+            .collect::<Counter<_>>();
+        let mut rc_iter = rank_counter
+            .most_common_tiebreaker(|a, b| b.partial_cmp(a).unwrap_or(Ordering::Less))
+            .into_iter()
+            .map(|(rank, _count)| rank);
+        (rc_iter.next(), rc_iter.next(), rc_iter.next())
+    }
+
+    fn cmp_cascade_by_freq(&self, other: &Hand) -> Ordering {
+        let (s1, s2, s3) = self.value_by_frequency();
+        let (o1, o2, o3) = other.value_by_frequency();
+        s1.partial_cmp(&o1)
+            .map(|c| {
+                c.then(
+                    s2
+                        .partial_cmp(&o2)
+                        .map(|c2| c2.then(s3.partial_cmp(&o3).unwrap_or(Ordering::Equal)))
+                        .unwrap_or(Ordering::Equal)
+                )
+            })
+            .unwrap_or(Ordering::Equal)
+    }
+
+    fn cmp_straight(&self, other: &Hand) -> Ordering {
+        let s = if Categories::is_ace_low_straight(&self.cards) {
+            5
+        } else {
+            self.cards[4].rank.get_value()
+        };
+        let o = if Categories::is_ace_low_straight(&other.cards) {
+            5
+        } else {
+            other.cards[4].rank.get_value()
+        };
+        s.cmp(&o)
     }
 }
 impl<'a> TryFrom<&'a str> for Card {
@@ -133,6 +208,17 @@ impl<'a> TryFrom<&'a str> for Suit {
     }
 }
 impl Categories {
+    fn is_ace_low_straight(cards: &[Card]) -> bool {
+        // special case: ace-low straight
+        // still depends on the sorted precondition
+        cards[0].rank.get_value() == 2 &&
+            cards[4].rank == Rank::Ace &&
+            cards
+                .windows(2)
+                .take(3) // (0, 1), (1, 2), (2, 3) --> skips 4, ace
+                .map(|pair| pair[1].rank.get_value() - pair[0].rank.get_value())
+                .all(|diff| diff == 1)
+    }
     fn check_categories(cards: Vec<Card>) -> Result<Self, &'static str> {
         if cards.len() != 5 {
             return Err("Invalid number of cards");
@@ -199,10 +285,16 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
             return vec![err];
         }
     };
-    hands.sort();
-    for h in hands {
-        println!("{:?}",h)
-    }
-    let x = vec!["4D 3D 2H 2S AC"];
-    x
+    hands.sort_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Less));    
+    hands
+        .last()
+        .map(|last| {
+            hands
+                .iter()
+                .rev()
+                .take_while(|&item| item.partial_cmp(last) == Some(Ordering::Equal))
+                .map(|hand| hand.hand)
+                .collect()
+        })
+        .unwrap_or_default()
 }
