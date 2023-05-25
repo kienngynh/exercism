@@ -228,7 +228,10 @@ impl Categories {
         sorted_cards.reverse();
         let is_flush = sorted_cards.iter().all(|&card| card.suit == sorted_cards[0].suit);
         let is_straight =
-            sorted_cards[0].rank.get_value() - sorted_cards[4].rank.get_value() == 4 ||
+            (sorted_cards[0].rank.get_value() - sorted_cards[4].rank.get_value() == 4 &&
+                sorted_cards[1].rank.get_value() - sorted_cards[4].rank.get_value() == 3 &&
+                sorted_cards[2].rank.get_value() - sorted_cards[4].rank.get_value() == 2 &&
+                sorted_cards[3].rank.get_value() - sorted_cards[4].rank.get_value() == 1) ||
             (sorted_cards[0].rank.get_value() == 14 &&
                 sorted_cards[1].rank.get_value() == 5 &&
                 sorted_cards[1].rank.get_value() - sorted_cards[4].rank.get_value() == 3);
@@ -285,7 +288,8 @@ pub fn winning_hands<'a>(hands: &[&'a str]) -> Vec<&'a str> {
             return vec![err];
         }
     };
-    hands.sort_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Less));    
+    hands.sort_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Less));
+    println!("{:?}", hands);
     hands
         .last()
         .map(|last| {
